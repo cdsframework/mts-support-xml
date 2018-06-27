@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    The MTS support XML project generates xml-based artifacts for the CDS Framework.
+
+    Copyright (C) 2016 New York City Department of Health and Mental Hygiene, Bureau of Immunization
+    Contributions by HLN Consulting, LLC
+
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+    Lesser General Public License as published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version. You should have received a copy of the GNU Lesser
+    General Public License along with this program. If not, see <http://www.gnu.org/licenses/> for more
+    details.
+
+    The above-named contributors (HLN Consulting, LLC) are also licensed by the New York City
+    Department of Health and Mental Hygiene, Bureau of Immunization to have (without restriction,
+    limitation, and warranty) complete irrevocable access and rights to this project.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; THE
+    SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING,
+    BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS, IF ANY, OR DEVELOPERS BE LIABLE FOR
+    ANY CLAIM, DAMAGES, OR OTHER LIABILITY OF ANY KIND, ARISING FROM, OUT OF, OR IN CONNECTION WITH
+    THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information about this software, see https://www.hln.com/services/open-source/ or send
+    correspondence to ice@hln.com.
+
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="org.cdsframework.util.table" targetNamespace="org.cdsframework.util.table">
+    <xs:element name="tableName" type="xs:string"/>
+    <xs:element name="databaseId" type="xs:string"/>
+    <xs:element name="registerStandardDMLInterfaces" type="xs:boolean" default="false"/>
+    <xs:element name="create" type="ns1:CreateElement"/>
+    <xs:element name="createVersion" type="xs:integer"/>
+    <xs:element name="index" type="xs:string"/>
+    <xs:element name="drop" type="xs:string"/>
+    <xs:element name="insert" type="xs:string"/>
+    <xs:element name="update" type="xs:string"/>
+    <xs:element name="select" type="ns1:SelectElement"/>
+    <xs:element name="selectByPrimaryKey" type="xs:string"/>
+    <xs:element name="orderBy" type="xs:string"/>
+    <xs:element name="delete" type="xs:string"/>
+    <xs:element name="initialInsert" type="xs:string"/>
+    <xs:element name="foreignKeyTable" type="xs:string"/>
+    <xs:element name="foreignKeySrcColumn" type="xs:string"/>
+    <xs:element name="foreignKeyDstColumn" type="xs:string"/>
+    <xs:element name="foreignKeyDDL" type="xs:string"/>
+    <xs:element name="primaryKeyConstraint" type="xs:string"/>
+    <xs:element name="otherConstraint" type="xs:string"/>
+    <xs:element name="queryClass" type="xs:string"/>
+    <xs:element name="queryDml" type="ns1:SelectElement"/>
+    <xs:element name="rollbackOnNotFound" type="xs:boolean" default="false"/>
+    <xs:element name="alterDml" type="xs:string"/>
+    <xs:element name="alterDmlFromVersion" type="xs:integer"/>
+    <xs:element name="alterDmlToVersion" type="xs:integer"/>
+    <xs:complexType name="alter">
+        <xs:sequence>
+            <xs:element ref="ns1:alterDml" maxOccurs="1"/>
+            <xs:element ref="ns1:alterDmlFromVersion" maxOccurs="1"/>
+            <xs:element ref="ns1:alterDmlToVersion" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="foreignKey">
+        <xs:sequence>
+            <xs:element ref="ns1:foreignKeyTable" maxOccurs="1"/>
+            <xs:element ref="ns1:foreignKeySrcColumn" maxOccurs="1"/>
+            <xs:element ref="ns1:foreignKeyDstColumn" maxOccurs="1"/>
+            <xs:element ref="ns1:foreignKeyDDL" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="query">
+        <xs:sequence>
+            <xs:element ref="ns1:tableName" minOccurs="0" maxOccurs="1"/>
+            <xs:element ref="ns1:queryClass" maxOccurs="1"/>
+            <xs:element ref="ns1:queryDml" maxOccurs="1"/>
+            <xs:element ref="ns1:rollbackOnNotFound" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="SelectElement">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="tableAlias" type="xs:string">
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="CreateElement">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="databaseType" type="xs:string">
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:element name="alterOperation" type="ns1:alter"/>
+    <xs:element name="foreignKeyConstraint" type="ns1:foreignKey"/>
+    <xs:element name="queryOperation" type="ns1:query"/>
+    <xs:complexType name="xmlTable">
+        <xs:sequence>
+            <xs:element ref="ns1:tableName" maxOccurs="1"/>
+            <xs:element ref="ns1:databaseId" maxOccurs="1"/>
+            <xs:element ref="ns1:registerStandardDMLInterfaces" minOccurs="0" maxOccurs="1"/>
+            <xs:element ref="ns1:create" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="ns1:createVersion" minOccurs="0" maxOccurs="1"/>
+            <xs:element ref="ns1:drop" maxOccurs="1"/>
+            <xs:element ref="ns1:primaryKeyConstraint" minOccurs="0" maxOccurs="1" />
+            <xs:element ref="ns1:foreignKeyConstraint" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element ref="ns1:otherConstraint" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element ref="ns1:index" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element ref="ns1:alterOperation" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element ref="ns1:select" maxOccurs="1"/>
+            <xs:element ref="ns1:selectByPrimaryKey" maxOccurs="1"/>
+            <xs:element ref="ns1:orderBy" maxOccurs="1"/>
+            <xs:element ref="ns1:insert" maxOccurs="1"/>
+            <xs:element ref="ns1:update" maxOccurs="1"/>
+            <xs:element ref="ns1:delete" maxOccurs="1"/>
+            <xs:element ref="ns1:queryOperation" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element ref="ns1:initialInsert" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="xmlTableResource" type="ns1:xmlTable"/>
+</xs:schema>
